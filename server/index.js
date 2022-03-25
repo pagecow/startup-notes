@@ -7,7 +7,7 @@ const {SERVER_PORT, CONNECTION_STRING } = process.env;
 const cors = require('cors');
 
 const authCtrl = require('./Controllers/authController');
-const notesCtrl = require('./controllers/notesController');
+// const notesCtrl = require('./Controllers/notesController');
 
 const app = express();
 
