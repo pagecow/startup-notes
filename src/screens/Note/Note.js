@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         fontFamily: 'OpenSans_400Regular',
         marginTop: 10,
         fontSize: 16,
-        color: '#000'
+        color: '#000',
     },
     scrollViewCont: {
         paddingTop: 20,

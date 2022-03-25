@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, Platform } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useForceUpdate from 'use-force-update';
@@ -55,41 +55,53 @@ export default function AllNotes({ navigation, AppState }) {
         forceUpdate();
     }
 
-    return (
-        <View style={styles.screen}>
-            <GlobalHeader navigation={navigation} AppState={AppState} />
-            <View style={styles.body}>
-                <ScrollView contentContainerStyle={styles.scrollViewCont}>
-                    { allNotes.map((e, i) => {
-                        return (
-                            <View key={i} style={styles.noteCont}>
-                                <Icon
-                                    style={styles.deleteButton} 
-                                    name="x-circle" 
-                                    onPress={() => confirmAlert(e)} 
-                                />
-                                <TouchableOpacity  
-                                    onPress={() => handlePress(e)}
-                                >
-                                    <Text 
-                                        style={styles.noteTitle}
-                                        numberOfLines={1}
-                                    >{e.noteTitle}</Text>
-                                    <Text 
-                                        style={styles.noteText} 
-                                        numberOfLines={1}
-                                    >{e.noteText}</Text>
-                                </TouchableOpacity>
-                                
-                            </View>
-                           
-                        )
-                    }) }
-                </ScrollView>
+    if(Platform.OS === 'web') {
+        return (
+            <View style={styles.screen}>
+                <Text style={styles.siteConstuctionText}>Site is under construction.</Text>
+                <Text style={styles.siteConstuctionText}>You can find the Startup Notes app on the Apple App Store or the Google Play Store.</Text>
+                <Text style={styles.siteConstuctionText}>If you have any questions, please email: tj@nativenotify.com</Text>
             </View>
-            <GlobalFooter AppState={AppState} navigation={navigation} />
-        </View>
-    );
+        )
+    } else {
+        return (
+            <View style={styles.screen}>
+                <GlobalHeader navigation={navigation} AppState={AppState} />
+                <View style={styles.body}>
+                    <ScrollView contentContainerStyle={styles.scrollViewCont}>
+                        { allNotes.map((e, i) => {
+                            return (
+                                <View key={i} style={styles.noteCont}>
+                                    <Icon
+                                        style={styles.deleteButton} 
+                                        name="x-circle" 
+                                        onPress={() => confirmAlert(e)} 
+                                    />
+                                    <TouchableOpacity  
+                                        onPress={() => handlePress(e)}
+                                    >
+                                        <Text 
+                                            style={styles.noteTitle}
+                                            numberOfLines={1}
+                                        >{e.noteTitle}</Text>
+                                        <Text 
+                                            style={styles.noteText} 
+                                            numberOfLines={1}
+                                        >{e.noteText}</Text>
+                                    </TouchableOpacity>
+                                    
+                                </View>
+                               
+                            )
+                        }) }
+                    </ScrollView>
+                </View>
+                <GlobalFooter AppState={AppState} navigation={navigation} />
+            </View>
+        );
+    }
+
+    
 }
 
 const styles = StyleSheet.create({
@@ -148,5 +160,10 @@ const styles = StyleSheet.create({
     scrollViewCont: {
         paddingTop: 20,
         paddingBottom: 200
+    },
+    siteConstuctionText: {
+        fontSize: 20,
+        margin: 20,
+        textAlign: 'center',
     }
 });
