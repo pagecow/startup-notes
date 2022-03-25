@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "react-native-tutorial",
-    "slug": "react-native-tutorial",
+    "name": "startup-notes",
+    "slug": "startup-notes",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.startupnotes.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
