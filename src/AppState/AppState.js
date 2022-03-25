@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AppLoading from 'expo-app-loading';
-import { 
-    useFonts, 
-    FredokaOne_400Regular, 
-    OpenSans_300Light, 
-    OpenSans_400Regular, 
-    OpenSans_600SemiBold, 
-    OpenSans_700Bold } from '@expo-google-fonts/dev';
+import { useFonts, FredokaOne_400Regular } from '@expo-google-fonts/fredoka-one';
+import { OpenSans_300Light, OpenSans_400Regular, OpenSans_600SemiBold, OpenSans_700Bold } from '@expo-google-fonts/open-sans';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AppNavigation from '../AppNavigation/AppNavigation';
