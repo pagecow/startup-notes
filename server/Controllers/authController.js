@@ -55,15 +55,15 @@ module.exports = {
       },
     register: async (req, res) => {
         const { email, password } = req.body;
-        console.log("email, password: ", email, password);
+        console.log("email: ", email);
 
         const db = req.app.get("db");
 
         let result = await db.get_user(email);
-        console.log(result);
+        console.log("result: ", result);
         existingUser = result[0];
         if (existingUser) {
-            return res.send("Email in use.");
+            return res.status(403).send("Email in use.");
         }
 
         const salt = bcrypt.genSaltSync(10);

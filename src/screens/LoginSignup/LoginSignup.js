@@ -6,7 +6,7 @@ import axios from 'axios';
 import GlobalHeader from '../../Headers/LoginSignupHeader';
 
 export default function LoginSignup({ navigation, AppState }) {
-    const { host, userID, setUserID, setNoteID, setAllNotes } = AppState;
+    const { host, userID, setUserID, noteID, setNoteID, allNotes, setAllNotes } = AppState;
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -33,6 +33,9 @@ export default function LoginSignup({ navigation, AppState }) {
                 let localNotes = JSON.stringify(allNotes);
                 await AsyncStorage.setItem('@notes', localNotes);
 
+                setEmail('');
+                setPassword('');
+
                 navigation.navigate('AllNotes');
             })
             .catch(err => {
@@ -54,6 +57,9 @@ export default function LoginSignup({ navigation, AppState }) {
                 await AsyncStorage.setItem('@noteID', localNoteID);
                 let localNotes = JSON.stringify(allNotes);
                 await AsyncStorage.setItem('@notes', localNotes);
+
+                setEmail('');
+                setPassword('');
 
                 navigation.navigate('AllNotes');
             })
@@ -86,6 +92,7 @@ export default function LoginSignup({ navigation, AppState }) {
                         value={email}
                         onChangeText={setEmail}
                         multiline={true}
+                        textContentType={'emailAddress'}
                     />
                     <TextInput
                         style={styles.inputs}
@@ -93,6 +100,8 @@ export default function LoginSignup({ navigation, AppState }) {
                         value={password}
                         onChangeText={setPassword}
                         multiline={true}
+                        textContentType={'password'}
+                        secureTextEntry={true}
                     />
                     {showLogin 
                         ? <TouchableOpacity style={styles.saveButton} onPress={handleLogin}>
@@ -102,7 +111,6 @@ export default function LoginSignup({ navigation, AppState }) {
                             <Text style={styles.saveButtonText}>Sign Up</Text>
                           </TouchableOpacity>
                     }
-                    
                     
                     <TouchableOpacity onPress={() => setShowLogin(!showLogin)}>
                         <Text style={styles.text}>{showLogin ? "Don't have an account yet? Tap here to Sign up." : "Already have an account? Tap here to Log In."}</Text>
@@ -132,6 +140,7 @@ const styles = StyleSheet.create({
 
     headerText: {
         height: '20%',
+        minHeight: 100,
         fontFamily: 'OpenSans_700Bold',
         fontSize: 18,
         marginTop: 30,

@@ -46,7 +46,7 @@ export default function CreateNote({ navigation, AppState }) {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
             <View style={styles.body}>
-                <ScrollView contentContainerStyle={styles.scrollViewCont}>
+                <ScrollView contentContainerStyle={styles.scrollViewCont} keyboardShouldPersistTaps={'always'}>
                     <TextInput 
                         style={styles.noteTitle}
                         placeholder={'Note Title'}
