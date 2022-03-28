@@ -7,7 +7,7 @@ const {SERVER_PORT, CONNECTION_STRING } = process.env;
 const cors = require('cors');
 
 const authCtrl = require('./Controllers/authController');
-// const notesCtrl = require('./Controllers/notesController');
+const notesCtrl = require('./Controllers/notesController');
 
 const app = express();
 
@@ -36,6 +36,9 @@ app.put("/api/update/email", authCtrl.updateEmail);
 app.put("/api/auth/logout", authCtrl.logout);
 
 app.delete("/api/delete/user/:userId", authCtrl.deleteUser);
+
+// notes controller
+app.post("/api/notes", notesCtrl.saveNotes);
 
 // handle any link that does not match the above
 app.get('*', (req,res) =>{

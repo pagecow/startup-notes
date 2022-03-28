@@ -63,7 +63,7 @@ module.exports = {
         console.log(result);
         existingUser = result[0];
         if (existingUser) {
-        return res.send("Email in use.");
+            return res.send("Email in use.");
         }
 
         const salt = bcrypt.genSaltSync(10);
@@ -75,11 +75,10 @@ module.exports = {
         console.log(ip, lookup(ip)); // ip address of the user
         
         let registeredUser = await db.register_user(email, hash, lookup(ip).country);
-        // let registeredUser = await db.register_user(name, email, hash, ip);
-        let user = registeredUser[0];
-        console.log(registeredUser, user);
+        registeredUser = await registeredUser[0];
+        console.log(registeredUser);
 
-        return res.send({ user_id: user.user_id });
+        return res.send(registeredUser);
     },
 
     login: async (req, res) => {
@@ -101,10 +100,10 @@ module.exports = {
 
         const isAuthenticated = bcrypt.compareSync(password, user.password);
         if (isAuthenticated) {
-        delete user.password;
-        console.log(user);
+            delete user.password;
+            console.log(user);
 
-        return res.send({ user_id: user.user_id });
+            return res.send(user);
         }
         res.status(403).send("Incorrect password");
     },

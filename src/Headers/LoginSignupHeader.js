@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon2 from 'react-native-vector-icons/MaterialIcons';
 
-export default function GlobalHeader({ navigation, AppState }) {
+export default function LoginSignupHeader({ navigation, AppState }) {
     const { userID, setUserID, setNoteID, setAllNotes, setScreenName } = AppState;
 
     const handleLogout = () => {
@@ -19,17 +20,15 @@ export default function GlobalHeader({ navigation, AppState }) {
 
     return (
         <View style={styles.headerCont}>
-            <TouchableOpacity onPress={() => { navigation.navigate('AllNotes'); setScreenName('AllNotes'); }}>
-                <Image
-                    style={styles.logo}
-                    source={require('../assets/images/logo.png')}
-                />
-            </TouchableOpacity>
+            <Image
+                style={styles.logo}
+                source={require('../assets/images/logo.png')}
+            />
             
             <Text style={styles.text}>Startup Notes</Text>
 
             {userID > 0
-                ? <Icon name="logout" size={25} color="#141414" onPress={handleLogout} />
+                ? <Icon2 name="logout" size={25} color="#141414" onPress={handleLogout} />
                 : null
             }
         </View>

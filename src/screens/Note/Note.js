@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Keyboard, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 import GlobalFooter from '../../Footers/GlobalFooter';
 
 export default function Note({ navigation, AppState }) {
-    const { chosenNoteID, note, allNotes, setAllNotes } = AppState;
+    const { userID, noteID, chosenNoteID, note, allNotes, setAllNotes } = AppState;
     const [noteTitle, setNoteTitle] = useState(note.noteTitle);
     const [noteText, setNoteText] = useState(note.noteText);
     const [showFooter, setShowFooter] = useState(true);
@@ -32,6 +33,11 @@ export default function Note({ navigation, AppState }) {
 
         let localNotes = JSON.stringify(allNotes);
         await AsyncStorage.setItem('@notes', localNotes);
+
+        axios
+            .post(`${host}/api/notes`, { userID, noteID, allNotes })
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
     }
 
     return (

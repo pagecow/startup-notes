@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "438406363921",
+    "project_id": "startup-notes-d2398",
+    "storage_bucket": "startup-notes-d2398.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438406363921:android:36dadda755f4a1dcc7aab0",
+        "android_client_info": {
+          "package_name": "com.startupnotes.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "438406363921-hke86ih598b2upkk9fvnor054hrg7a68.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd0eL9s4LoHcVWgBmDSdobE_2Sngh-5sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "438406363921-hke86ih598b2upkk9fvnor054hrg7a68.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

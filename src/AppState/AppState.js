@@ -7,14 +7,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppNavigation from '../AppNavigation/AppNavigation';
 
 export default function AppState() {
+    const host = 'https://startupnotes.app';
+
     const [userID, setUserID] = useState(0);
+
     const [noteID, setNoteID] = useState(0);
     const [allNotes, setAllNotes] = useState([]);
     const [note, setNote] = useState({});
     const [chosenNoteID, setChosenNoteID] = useState(0);
+
     const [screenName, setScreenName] = useState('AllNotes');
 
     const AppState = {
+        host,
         userID, setUserID,
         noteID, setNoteID,
         allNotes, setAllNotes,
@@ -29,6 +34,14 @@ export default function AppState() {
 
     useEffect(async () => {
         try {
+            const localUserID = await AsyncStorage.getItem('@userID');
+            console.log("localUserID: ", localUserID);
+            if(localUserID !== null) {
+                setUserID(Number(localUserID));
+            } else {
+                await AsyncStorage.setItem('@userID', '0');
+            }
+
             const localNoteID = await AsyncStorage.getItem('@noteID');
             console.log("localNoteID: ", localNoteID);
             if(localNoteID !== null) {
