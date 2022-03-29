@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 
 export default function GlobalFooter({ navigation, AppState }) {
-    const { noteID, setNoteID, allNotes, setAllNotes, setChosenNoteID, screenName, setScreenName } = AppState;
+    const { host, userID, noteID, setNoteID, allNotes, setAllNotes, setChosenNoteID, screenName, setScreenName } = AppState;
 
     const newNoteID = noteID + 1;
 
@@ -20,6 +21,11 @@ export default function GlobalFooter({ navigation, AppState }) {
 
         let localNotes = JSON.stringify(allNotes);
         await AsyncStorage.setItem('@notes', localNotes);
+
+        axios
+            .post(`${host}/api/notes`, { userID, noteID, allNotes })
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
 
         navigation.navigate('CreateNote');
         setScreenName('CreateNote');

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Keyboard, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, View, Keyboard, ScrollView, TextInput, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 import GlobalFooter from '../../Footers/GlobalFooter';
 
+const height = Dimensions.get('window').height;
+
 export default function CreateNote({ navigation, AppState }) {
-    const { userID, noteID, chosenNoteID, allNotes, setAllNotes } = AppState;
+    const { host, userID, noteID, chosenNoteID, allNotes, setAllNotes, setScreenName } = AppState;
     const [noteTitle, setNoteTitle] = useState('');
     const [noteText, setNoteText] = useState('');
     const [showFooter, setShowFooter] = useState(true);
@@ -60,6 +62,7 @@ export default function CreateNote({ navigation, AppState }) {
                         value={noteText}
                         onChangeText={setNoteText}
                         multiline={true}
+                        pointerEvents="none"
                    />
                 </ScrollView>
             </View>
@@ -84,14 +87,18 @@ const styles = StyleSheet.create({
     },
 
     noteTitle: {
+        height: height * 0.10,
         fontFamily: 'OpenSans_700Bold',
-        fontSize: 24
+        fontSize: 24,
     },
     noteText: {
+        height: height * 0.70,
         fontFamily: 'OpenSans_400Regular',
-        marginTop: 20,
+        marginTop: 10,
         fontSize: 16,
-        color: '#000'
+        color: '#000',
+        textAlignVertical: 'top',
+        paddingBottom: 50
     },
     scrollViewCont: {
         paddingTop: 20,

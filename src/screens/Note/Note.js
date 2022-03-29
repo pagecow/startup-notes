@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Keyboard, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, View, Keyboard, ScrollView, TextInput, KeyboardAvoidingView, Platform, Dimensions, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 import GlobalFooter from '../../Footers/GlobalFooter';
 
+const height = Dimensions.get('window').height;
+
 export default function Note({ navigation, AppState }) {
-    const { userID, noteID, chosenNoteID, note, allNotes, setAllNotes } = AppState;
+    const { host, userID, noteID, chosenNoteID, note, allNotes, setAllNotes } = AppState;
     const [noteTitle, setNoteTitle] = useState(note.noteTitle);
     const [noteText, setNoteText] = useState(note.noteText);
     const [showFooter, setShowFooter] = useState(true);
@@ -45,15 +47,16 @@ export default function Note({ navigation, AppState }) {
             style={styles.screen}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
+            <TextInput 
+                style={styles.noteTitle}
+                placeholder={'Note Title'}
+                value={noteTitle}
+                onChangeText={setNoteTitle}
+                multiline={true}
+            />
             <View style={styles.body}>
                 <ScrollView contentContainerStyle={styles.scrollViewCont} keyboardShouldPersistTaps={'always'}>
-                    <TextInput 
-                        style={styles.noteTitle}
-                        placeholder={'Note Title'}
-                        value={noteTitle}
-                        onChangeText={setNoteTitle}
-                        multiline={true}
-                    />
+                    
                     <TextInput 
                         style={styles.noteText}
                         placeholder={'Note Text'}
@@ -84,14 +87,21 @@ const styles = StyleSheet.create({
     },
 
     noteTitle: {
+        height: height * 0.10,
         fontFamily: 'OpenSans_700Bold',
         fontSize: 24,
+        paddingTop: '6%',
+        paddingLeft: '6%',
+        paddingRight: '6%',
     },
     noteText: {
+        height: height * 0.70,
         fontFamily: 'OpenSans_400Regular',
         marginTop: 10,
         fontSize: 16,
         color: '#000',
+        textAlignVertical: 'top',
+        paddingBottom: 50
     },
     scrollViewCont: {
         paddingTop: 20,

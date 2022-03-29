@@ -6,7 +6,7 @@ import axios from 'axios';
 import GlobalHeader from '../../Headers/LoginSignupHeader';
 
 export default function LoginSignup({ navigation, AppState }) {
-    const { host, userID, setUserID, noteID, setNoteID, allNotes, setAllNotes } = AppState;
+    const { host, userID, setUserID, setNoteID, setAllNotes } = AppState;
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,22 +15,49 @@ export default function LoginSignup({ navigation, AppState }) {
     useEffect(() => {
         if(userID) {
             navigation.navigate('AllNotes');
+            axios
+                .post(`${host}/api/user/${userID}`)
+                .then(async (res) => {
+                    console.log("res.data: ", res.data, res.data.notes);
+
+                    await setNoteID(res.data.note_id);
+                    let localNoteID = JSON.stringify(res.data.note_id);
+                    await AsyncStorage.setItem('@noteID', localNoteID);
+
+                    let notesParsed = [];
+
+                    for(const note in res.data.notes) {
+                        console.log("note: ", res.data.notes[note]);
+                        notesParsed.push(JSON.parse(res.data.notes[note]));
+                    }
+                    console.log("notesParsed: ", notesParsed);
+
+                    await setAllNotes(notesParsed);
+                    let localNotes = JSON.stringify(notesParsed);
+                    await AsyncStorage.setItem('@notes', localNotes);
+
+                    navigation.navigate('AllNotes');
+                })
+                .catch(err => console.log(err))
         }
-    })
+    }, [])
 
     const handleSignup = async () => {
         axios
             .post(`${host}/api/auth/register`, { email, password })
             .then(async (res) => {
+                console.log("res.data: ", res.data);
+                
                 await setUserID(res.data.user_id);
-                await setNoteID(res.data.note_id);
-                await setAllNotes(res.data.notes);
-
-                let localUserID = JSON.stringify(userID);
+                let localUserID = JSON.stringify(res.data.user_id);
                 await AsyncStorage.setItem('@userID', localUserID);
-                let localNoteID = JSON.stringify(noteID);
+
+                await setNoteID(res.data.note_id);
+                let localNoteID = JSON.stringify(res.data.note_id);
                 await AsyncStorage.setItem('@noteID', localNoteID);
-                let localNotes = JSON.stringify(allNotes);
+
+                await setAllNotes(res.data.notes);
+                let localNotes = JSON.stringify(res.data.notes);
                 await AsyncStorage.setItem('@notes', localNotes);
 
                 setEmail('');
@@ -47,15 +74,26 @@ export default function LoginSignup({ navigation, AppState }) {
         axios
             .post(`${host}/api/auth/login`, { email, password })
             .then(async (res) => {
-                await setUserID(res.data.user_id);
-                await setNoteID(res.data.note_id);
-                await setAllNotes(res.data.notes);
+                console.log("res.data: ", res.data, res.data.notes);
 
-                let localUserID = JSON.stringify(userID);
+                await setUserID(res.data.user_id);
+                let localUserID = JSON.stringify(res.data.user_id);
                 await AsyncStorage.setItem('@userID', localUserID);
-                let localNoteID = JSON.stringify(noteID);
+
+                await setNoteID(res.data.note_id);
+                let localNoteID = JSON.stringify(res.data.note_id);
                 await AsyncStorage.setItem('@noteID', localNoteID);
-                let localNotes = JSON.stringify(allNotes);
+
+                let notesParsed = [];
+
+                for(const note in res.data.notes) {
+                    console.log("note: ", res.data.notes[note]);
+                    notesParsed.push(JSON.parse(res.data.notes[note]));
+                }
+                console.log("notesParsed: ", notesParsed);
+
+                await setAllNotes(notesParsed);
+                let localNotes = JSON.stringify(notesParsed);
                 await AsyncStorage.setItem('@notes', localNotes);
 
                 setEmail('');
@@ -91,16 +129,14 @@ export default function LoginSignup({ navigation, AppState }) {
                         placeholder={'Email'}
                         value={email}
                         onChangeText={setEmail}
-                        multiline={true}
                         textContentType={'emailAddress'}
+                        autoCapitalize="none"
                     />
                     <TextInput
                         style={styles.inputs}
                         placeholder={'Password'}
                         value={password}
                         onChangeText={setPassword}
-                        multiline={true}
-                        textContentType={'password'}
                         secureTextEntry={true}
                     />
                     {showLogin 
@@ -112,7 +148,11 @@ export default function LoginSignup({ navigation, AppState }) {
                           </TouchableOpacity>
                     }
                     
-                    <TouchableOpacity onPress={() => setShowLogin(!showLogin)}>
+                    <TouchableOpacity onPress={() => {
+                        setShowLogin(!showLogin);
+                        setEmail('');
+                        setPassword('');
+                    }}>
                         <Text style={styles.text}>{showLogin ? "Don't have an account yet? Tap here to Sign up." : "Already have an account? Tap here to Log In."}</Text>
                     </TouchableOpacity>
                 </View>
@@ -139,12 +179,12 @@ const styles = StyleSheet.create({
     },
 
     headerText: {
-        height: '20%',
+        height: '25%',
         minHeight: 100,
         fontFamily: 'OpenSans_700Bold',
         fontSize: 18,
         marginTop: 30,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     inputs: {
         width: '100%',

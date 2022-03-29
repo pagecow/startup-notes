@@ -38,23 +38,7 @@ export default function AppState() {
             console.log("localUserID: ", localUserID);
             if(localUserID !== null) {
                 setUserID(Number(localUserID));
-            } else {
-                await AsyncStorage.setItem('@userID', '0');
-            }
-
-            const localNoteID = await AsyncStorage.getItem('@noteID');
-            console.log("localNoteID: ", localNoteID);
-            if(localNoteID !== null) {
-                setNoteID(Number(localNoteID));
-            } else {
-                await AsyncStorage.setItem('@noteID', '0');
-            }
-
-            const localNotes = await AsyncStorage.getItem('@notes');
-            console.log("localNotes: ", localNotes);
-            if(localNotes !== null) {
-                setAllNotes(JSON.parse(localNotes));
-            }
+            } 
         } catch(e) {
             console.log(e);
         }

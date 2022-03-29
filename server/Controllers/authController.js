@@ -114,7 +114,7 @@ module.exports = {
 
         const db = req.app.get("db");
 
-        let user = await db.get_user_by_id(userId);
+        let user = await db.get_user_by_user_id(userId);
         user = await user[0];
         console.log(user);
 
@@ -221,7 +221,7 @@ module.exports = {
 
         const db = req.app.get('db');
 
-        let user = await db.get_user_by_id(userId);
+        let user = await db.get_user_by_user_id(userId);
         user = user[0];
         console.log(user);
 

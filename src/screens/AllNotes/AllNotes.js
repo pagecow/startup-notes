@@ -11,25 +11,22 @@ import GlobalFooter from '../../Footers/GlobalFooter';
 import Icon from 'react-native-vector-icons/Feather';
 
 export default function AllNotes({ navigation, AppState }) {
-    const { userID, noteID, allNotes, setAllNotes, setChosenNoteID, setNote } = AppState;
+    const { host, userID, noteID, allNotes, setAllNotes, setChosenNoteID, setNote, setScreenName } = AppState;
 
     const forceUpdate = useForceUpdate();
     useIsFocused();
-
-    useEffect(() => {
-        console.log("useEffect triggered");
-    }, [allNotes])
 
     const handlePress = async (noteObj) => {
         await setChosenNoteID(noteObj.noteID);
         await setNote(noteObj);
         navigation.navigate('Note');
+        setScreenName('CreateNote');
     }
 
     const confirmAlert = (noteObj) => {
         Alert.alert(
             "Wait! Do you want to delete your note forever?",
-            "This cannot be undone!!!",
+            "This cannot be undone!",
             [
               {
                 text: "Cancel",
